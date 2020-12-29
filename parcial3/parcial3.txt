@@ -1,0 +1,40 @@
+1)
+a. 
+   SELECT * 
+   FROM estudiante 
+   ORDER BY apellido,nombre;
+
+b. 
+   SELECT grupo.id_profesor ,profesor.nombre || ' ' || apellido nombre_profesor, grupo.nombre nombre_grupo 
+   FROM profesor JOIN grupo ON profesor.id = grupo.id_profesor;
+
+c. 
+   CREATE VIEW profesores_cursos AS
+   SELECT grupo.id_profesor ,profesor.nombre || ' ' || apellido nombre_profesor, grupo.nombre nombre_grupo, curso.nombre nombre_curso 
+   FROM profesor JOIN grupo ON profesor.id = grupo.id_profesor JOIN curso ON grupo.id_curso = curso.id 
+   ORDER BY apellido, profesor.nombre;
+
+d. 
+   SELECT curso.id_departamento, departamento.nombre nombre_departamento, curso.nombre nombre_curso 
+   FROM departamento JOIN curso ON departamento.id = curso.id_departamento
+   ORDER BY nombre_departamento, nombre_curso;
+
+e.
+
+f.
+  SELECT salon.nombre nombre_salon , COUNT(grupo.nombre)
+  FROM grupo JOIN horario ON grupo.id = horario.id_grupo JOIN salon ON horario.id_salon = salon.id
+  GROUP BY salon.nombre
+  ORDER BY salon.nombre;
+
+
+
+
+
+2)
+a. D (durability)
+b. No corresponde a una propiedad
+c. C (consistency)
+d. A (atomicity)
+e. I (isolation)
+f. No corresponde a una propiedad

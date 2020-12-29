@@ -1,0 +1,90 @@
+CREATE TABLE actorlog (LIKE actor);
+
+SELECT * FROM actor ORDER BY actor_id DESC;
+SELECT * FROM actorlog;
+
+ALTER TABLE actorlog
+	ADD COLUMN log_action VARCHAR(1) NOT NULL,
+	ADD COLUMN log_time TIMESTAMP WITHOUT TIME ZONE NOT NULL;
+	
+CREATE RULE actorlog AS ON INSERT TO actor DO ALSO
+	INSERT INTO actorlog (actor_id, first_name, last_name,
+						  last_update, log_action, log_time)
+	VALUES (new.actor_id, new.first_name, new.last_name,
+			new.last_update, 'I', now());
+	
+INSERT INTO actor (first_name, last_name, last_update)
+VALUES('Tom','Holand',now());
+
+DROP TABLE actorlog CASCADE;
+
+CREATE OR REPLACE FUNCTION actorlog_trg_fnc() RETURNS TRIGGER AS $$
+BEGIN
+	IF TG_OP = 'INSERT' THEN
+		INSERT INTO actorlog SELECT NEW.*, 'I', now();
+	ELSIF TG_OP = 'UPDATE' THEN
+		INSERT INTO actorlog SELECT NEW.*, 'U', now();
+	ELSIF TG_OP = 'DELETE' THEN
+		INSERT INTO actorlog SELECT OLD.*, 'D', now();
+	END IF;
+	RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER actorlog_trg AFTER INSERT OR UPDATE OR DELETE ON 
+	actor FOR EACH ROW EXECUTE PROCEDURE 
+	actorlog_trg_fnc();
+
+--EJEMPLOS
+UPDATE actor SET first_name = 'Miguel', last_name = 'Orjuela' WHERE actor_id = 201;
+DELETE FROM actor WHERE actor_id > 200;
+
+--Taller 3
+CREATE TABLE cliente (
+	id_cliente SERIAL NOT NULL ,
+	nombre VARCHAR (45) NOT NULL ,
+	apellido VARCHAR (45) NOT NULL ,
+	PRIMARY KEY (id_cliente)
+);
+
+CREATE TABLE cuenta (
+	numero_cuenta SMALLINT NOT NULL ,
+	saldo INT4 NOT NULL ,
+	id_cliente INTEGER ,
+	PRIMARY KEY (numero_cuenta) ,
+	FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente)
+);
+
+CREATE TABLE movimiento (
+	id_movimiento SERIAL NOT NULL ,
+	valor INT4 NOT NULL ,
+	fecha DATE NOT NULL ,
+	numero_cuenta SMALLINT ,
+	PRIMARY KEY (id_movimiento) ,
+	FOREIGN KEY (numero_cuenta) REFERENCES cuenta (numero_cuenta)
+);
+
+CREATE TABLE movimiento_anual (
+	id_movimiento_anual SERIAL NOT NULL ,
+	valor INT4 NOT NULL ,
+	anio SMALLINT NOT NULL ,
+	numero_cuenta SMALLINT ,
+	PRIMARY KEY ( id_movimiento_anual ) ,
+	FOREIGN KEY ( numero_cuenta ) REFERENCES cuenta (numero_cuenta )
+);
+
+INSERT INTO cliente ( nombre , apellido )
+	VALUES ('Pedro ', ' Picapiedra ');
+INSERT INTO cliente ( nombre , apellido )
+	VALUES ('Pablo ', 'Marmol ');
+INSERT INTO cliente ( nombre , apellido )
+	VALUES ('Vilma ', ' Picapiedra ');
+INSERT INTO cuenta ( numero_cuenta , saldo , id_cliente )
+	VALUES (1000 , 1100000 , 1) ;
+INSERT INTO cuenta ( numero_cuenta , saldo , id_cliente )
+	VALUES (2000 , 4000000 , 2) ;
+INSERT INTO cuenta ( numero_cuenta , saldo , id_cliente )
+	VALUES (3000 , 2500000 , 3) ;
+
+SELECT * FROM cliente;
+SELECT * FROM cuenta;

@@ -1,0 +1,27 @@
+CREATE VIEW clientes AS
+SELECT customer_id, first_name, last_name, address, postal_code, phone, city, country
+FROM customer JOIN address ON customer.address_id = address.address_id 
+JOIN city ON city.city_id = address.city_id
+JOIN country ON country.country_id = city.country_id
+;
+
+SELECT * FROM clientes;
+
+SELECT 
+	COUNT(replacement_cost) AS n, 
+	SUM(replacement_cost) AS suma,
+	SUM(replacement_cost)/COUNT(replacement_cost) AS prom,
+	AVG(replacement_cost) AS prom2,
+	MIN(replacement_cost) AS mini,
+	MAX(replacement_cost) AS maxi,
+	MAX(replacement_cost) -	MIN(replacement_cost) AS rango
+FROM film;
+
+SELECT 
+	rating,
+	MAX(length) AS maxima_duracion,
+	MIN(length) AS minima_duracion,
+	ROUND(AVG(length),2) AS promedio,
+	ROUND(variance(length),2) AS varianza
+FROM film
+GROUP BY rating;

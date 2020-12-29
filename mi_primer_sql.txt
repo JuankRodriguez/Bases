@@ -1,0 +1,8 @@
+SELECT DISTINCT rating FROM film;
+
+SELECT title, ROUND(replacement_cost/length,2) AS precio_x_minuto FROM film;
+
+SELECT 
+title, length, rating, replacement_cost
+FROM film 
+WHERE length NOT BETWEEN 80 AND 165 AND rating NOT IN ('PG','PG-13')AND replacement_cost > 8;

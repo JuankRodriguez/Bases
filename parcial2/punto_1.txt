@@ -1,0 +1,9 @@
+--Primer punto
+SELECT ship_country, ship_via ,SUM(freight)
+FROM orders
+GROUP BY CUBE(ship_country, ship_via);
+
+--Segundo punto
+SELECT ship_country, ship_city, SUM(order_id)
+FROM orders
+GROUP BY ROLLUP(ship_country, ship_city);

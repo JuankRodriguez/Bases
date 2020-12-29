@@ -1,0 +1,21 @@
+-- Primer punto:
+CREATE TABLE Categoria (
+	id_categoria smallint,
+	nombre varchar(45),
+	primary key(id_categoria)
+);
+
+CREATE TABLE Producto (
+	id_producto smallint,
+	nombre varchar(45),
+	precio smallint,
+	id_categoria smallint,
+	primary key(id_producto),
+	foreign key(id_categoria) references Categoria
+);
+
+--Segundo punto
+SELECT ti.id_tienda, ti.nombre, tp.unidades
+FROM tienda_producto AS tp 
+JOIN tienda AS ti ON tp.id_tienda = ti.id_tienda
+

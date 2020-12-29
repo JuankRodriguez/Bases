@@ -1,0 +1,33 @@
+SELECT * 
+FROM city AS ct, country AS cu
+WHERE ct.country_id = cu.country_id;
+
+SELECT COUNT(*)
+FROM customer JOIN rental ON
+rental.customer_id = customer.customer_id;
+
+CREATE TABLE tabla1(
+	id serial PRIMARY KEY,
+	valor varchar
+);
+
+CREATE TABLE tabla2(
+	id serial PRIMARY KEY,
+	valor  varchar
+);
+
+INSERT INTO tabla1 (id,valor) VALUES (1,'x1');
+INSERT INTO tabla1 (id,valor) VALUES (2,'x2');
+INSERT INTO tabla1 (id,valor) VALUES (3,'x3');
+SELECT * FROM tabla1;
+
+INSERT INTO tabla2 (valor) VALUES ('y1'), ('y2'); 
+INSERT INTO tabla2 (id, valor) VALUES (4, 'y3'); 
+SELECT * FROM tabla2;
+
+SELECT *
+FROM tabla1 FULL OUTER JOIN tabla2 ON tabla1.id = tabla2.id;
+
+SELECT *
+FROM actor
+WHERE first_name LIKE 'Mi%' OR first_name LIKE '%an';

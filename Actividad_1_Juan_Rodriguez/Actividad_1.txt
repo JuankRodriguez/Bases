@@ -1,0 +1,29 @@
+1) - Dependencias funcionales parciales:
+     *(num_factura) -> (num_item, unidades_vendidas, valor_total_factura, fecha_factura)
+
+     *(id_cliente) -> (nom_cliente)
+
+     *(num_producto) -> (nom_producto, valor_producto)
+
+   - Dependencias funcionales transitivas:
+     *(num_producto) -> (nom_producto) & (nom_producto) -> (valor_producto)
+
+
+2) - Dependencias funcionales parciales:
+     *(cod_estudiante) -> (nombre, fechaNacimiento)
+
+     *(semestre) -> (prom_por_semestre)
+
+   - Dependencias funcionales transitivas:
+     *(cod_estudiante) -> (nombre) & (nombre) -> (fechaNacimiento)
+
+#Nota:Esto suponiendo que no tenemos un caso supremamente extremo donde dos personas tengan el mismo nombre y que el 
+argumento nombre contiene el nombre completo de la persona. Ej: Juan_Camilo_Rodríguez_Jimenez
+
+3) - Dependencias funcionales parciales:
+     *(id_carrito) -> (id_cliente, id_producto, cantidad, fecha_vigencia_carrito)
+
+   - Dependencias funcionales transitivas:
+     *Así como nos plantean el problema, este no posee dependencias funcionales transitivas.
+
+#Nota:El punto es algo confuso y redundante entonces por eso plantee el punto de esta forma.

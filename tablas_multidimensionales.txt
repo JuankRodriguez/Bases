@@ -1,0 +1,52 @@
+CREATE TABLE sales(
+	id_sale SERIAL PRIMARY KEY,
+	item_name VARCHAR(10) NOT NULL,
+	color VARCHAR(10) NOT NULL,
+	clothes_size VARCHAR(10) NOT NULL,
+	quantity SMALLINT NOT NULL
+);
+
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('skirt','dark','small',2);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('skirt','dark','medium',5);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('skirt','dark','large',1);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('skirt','pastel','small',11);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('skirt','pastel','medium',9);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('skirt','pastel','large',15);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('skirt','white','small',2);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('skirt','white','medium',5);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('skirt','white','large',3);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('dress','dark','small',2);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('dress','dark','medium',6);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('dress','dark','large',12);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('dress','pastel','small',4);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('dress','pastel','medium',3);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('dress','pastel','large',3);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('dress','white','small',2);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('dress','white','medium',3);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('dress','white','large',0);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('shirt','dark','small',2);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('shirt','dark','medium',6);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('shirt','dark','large',6);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('shirt','pastel','small',4);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('shirt','pastel','medium',1);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('shirt','pastel','large',2);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('shirt','white','small',17);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('shirt','white','medium',1);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('shirt','white','large',10);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('pants','dark','small',14);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('pants','dark','medium',6);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('pants','dark','large',0);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('pants','pastel','small',1);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('pants','pastel','medium',0);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('pants','pastel','large',1);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('pants','white','small',3);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('pants','white','medium',0);
+INSERT INTO sales (item_name, color,clothes_size,quantity) VALUES ('pants','white','large',2);
+
+SELECT * FROM sales;
+
+SELECT item_name, color, SUM(quantity)
+FROM sales
+GROUP BY ROLLUP (item_name), ROLLUP(color);
+
+CREATE EXTENSION tablefunc;

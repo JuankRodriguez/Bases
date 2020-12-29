@@ -1,0 +1,37 @@
+SELECT * FROM sales;
+
+CREATE VIEW tabla_color_intemName AS 
+(SELECT item_name, color, SUM(quantity)
+FROM sales
+GROUP BY item_name, color
+ORDER BY item_name, color)
+UNION 
+(SElECT item_name, NULL AS color, SUM(quantity)
+FROM sales
+GROUP BY item_name
+ORDER BY item_name)
+UNION
+(SELECT NULL AS item_name, NULL AS color, SUM(quantity)
+FROM SALES)
+UNION
+(SELECT NULL AS item_name, color, SUM(quantity)
+FROM sales
+GROUP BY color
+ORDER BY color);
+
+SELECT * FROM tabla_color_intemname;
+
+--CUBE
+SELECT item_name, color, SUM(quantity)
+FROM sales
+GROUP BY CUBE(item_name, color);
+
+--GROUPING SETS
+SELECT item_name, color, SUM(quantity)
+FROM sales
+GROUP BY GROUPING SETS(item_name, color, ());
+
+--ROLLUP
+SELECT item_name, color,clothes_size, SUM(quantity)
+FROM sales
+GROUP BY ROLLUP(item_name, color, clothes_size);

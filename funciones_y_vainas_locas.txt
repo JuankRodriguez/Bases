@@ -1,0 +1,94 @@
+SELECT version();
+
+CREATE OR REPLACE PROCEDURE test_procedure_tx() AS $$
+BEGIN
+	CREATE TABLE a  (id int);
+	COMMIT;
+	CREATE INDEX a_id_idx ON a(id);
+	SELECT 1/0;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION test_funcion_tx() RETURNS VOID AS $$
+BEGIN
+	CREATE TABLE a  (id int);
+	CREATE INDEX a_id_idx ON a(id);
+	SELECT 1/0;
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT test_funcion_tx();
+TABLE a;
+
+CALL test_procedure_tx();
+TABLE a;
+
+DROP PROCEDURE test_procedure_tx();
+
+
+CREATE TABLE test_table (un_numero NUMERIC);
+
+CREATE PROCEDURE insert_data(a integer, b integer) AS $$
+	INSERT INTO test_table VALUES (a);
+	INSERT INTO test_table VALUES (b);
+$$ LANGUAGE SQL;
+
+TABLE test_table;
+CALL insert_data(1,2);
+TABLE test_table;
+
+CREATE FUNCTION greetingsFunction() RETURNS text AS $$
+	SELECT 'Hola mundo de funciones';
+$$ LANGUAGE SQL;
+
+SELECT greetingsfunction() AS saludo;
+
+CREATE FUNCTION myIncrementFuction(variable int) RETURNS int AS $$
+BEGIN
+	RETURN variable + 1;
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT myIncrementFuction(10) AS var_plus_1;
+
+SELECT
+	length AS original_length,
+	myincrementfuction(length) AS increased_length
+FROM film;
+
+DO $$
+	DECLARE
+		number_of_accounts INTEGER :=0;
+	BEGIN
+		number_of_accounts:=(SELECT COUNT(*) FROM actor)::INTEGER;
+		RAISE NOTICE 'number of actors: %', number_of_accounts;
+	END;
+$$ LANGUAGE plpgsql;
+
+CREATE FUNCTION cast_rank_to_text (rank int) RETURNS TEXT AS $$
+DECLARE
+	rank ALIAS FOR $1;
+	rank_result TEXT;
+BEGIN
+	IF rank = 5 THEN rank_result = 'Exelent';
+	ELSEIF rank = 4 THEN rank_result = 'Very Good';
+	ELSEIF rank = 3 THEN rank_result = 'Good';
+	ELSEIF rank = 2 THEN rank_result = 'Fair';
+	ELSEIF rank = 1 THEN rank_result = 'Poor';
+	ELSE rank_result = 'No such rank';
+	END IF;
+	RETURN rank_result;
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT cast_rank_to_text(4);
+SELECT n FROM generate_series(1,6) AS n;
+SELECT n, cast_rank_to_text(n) FROM generate_series(1,6) AS n;
+
+DO $$
+	BEGIN
+		FOR j IN REVERSE -1 .. -10 BY 2 LOOP
+			RAISE NOTICE '%',j;
+		END LOOP;
+	END;
+$$ LANGUAGE plpgsql;
